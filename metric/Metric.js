@@ -11,7 +11,7 @@ class Metric {
 	 * @param {Object.<string, string|Number>}labels
 	 */
 	constructor(name, { ttl, labels = {} } = {}) {
-		if (! name) {
+		if (!name) {
 			throw new Error('Name not provided');
 		}
 		this.name = Metric.buildName(name);
@@ -21,7 +21,7 @@ class Metric {
 		}
 		
 		this._labels    = labels;
-		this.promMetric = null
+		this.promMetric = null;
 	}
 	
 	/**
@@ -53,7 +53,7 @@ class Metric {
 	 * @private
 	 */
 	clearInterval() {
-		if(this.interval) {
+		if (this.interval) {
 			clearInterval(this.interval);
 			this.interval = null;
 		}

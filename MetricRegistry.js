@@ -20,7 +20,7 @@ class MetricRegistry {
 		const metricName = this._formatMetricName(name);
 		const metric     = this.metrics.get(Metric.buildName(metricName));
 		
-		if(! metric) {
+		if (!metric) {
 			throw new Error('Job should be registered before setting value');
 		}
 		
@@ -33,7 +33,7 @@ class MetricRegistry {
 	 * @private
 	 */
 	_formatMetricName(name) {
-		if (! this.prefix) {
+		if (!this.prefix) {
 			return name;
 		}
 		
@@ -47,15 +47,15 @@ class MetricRegistry {
 	 * @return {Metric}
 	 */
 	register(Constructor, metricName, { labels = [], ttl } = {}) {
-		if (! (Constructor.prototype instanceof Metric) ) {
+		if (!(Constructor.prototype instanceof Metric)) {
 			throw new Error('Constructor should be instance of Metric');
 		}
 		
 		const labelsHash = labels.reduce((object, label) => {
-			return {...object, [label]: null };
+			return { ...object, [label]: null };
 		}, {});
 		
-		if (! labels) {
+		if (!labels) {
 			labels = this.defaultLabels;
 		} else {
 			labels = { ...this.defaultLabels, ...labelsHash };

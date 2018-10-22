@@ -8,6 +8,7 @@
     "test:coverage:dev": "nyc --reporter=text --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./**/*.server.test.js ./*.server.test.js",
     "test:coverage": "nyc --reporter=lcov --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./**/*.server.test.js ./*.server.test.js",
     "report-coverage": "cat coverage/lcov.info | coveralls",
+    "eslint": "npx eslint --quiet .",
     "prebuild": "rimraf ./dist",
     "build": "babel ./ -d ./dist -s --ignore *.server.test.js,node_modules",
     "precommit": "lint-staged",
@@ -80,6 +81,8 @@
           }
         }
       ],
+      "no-unused-expressions": 0,
+      "no-param-reassign": 0,
       "no-underscore-dangle": [
         "error",
         {

@@ -9,7 +9,7 @@ import Transport  from './Transport';
 class PullTransport extends Transport {
 	constructor(logger, port) {
 		super();
-		if (! port) {
+		if (!port) {
 			throw new Error('Port must be provided');
 		}
 		
@@ -21,7 +21,8 @@ class PullTransport extends Transport {
 		const server = http.createServer((req, res) => {
 			if (req.url !== '/metrics') {
 				res.statusCode = 404;
-				return res.end('404');
+				res.end('404');
+				return;
 			}
 			
 			res.end(promClient.register.metrics());
@@ -31,7 +32,7 @@ class PullTransport extends Transport {
 			this.logger.info('uMetrics error pullTransport', { error });
 		});
 		
-		this.logger.info('listen ' + this.port);
+		this.logger.info(`listen ${this.port}`);
 		server.listen(this.port);
 	}
 }

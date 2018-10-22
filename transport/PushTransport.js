@@ -11,7 +11,7 @@ import Transport  from './Transport';
 class PushTransport extends Transport {
 	constructor(logger, { url, interval, jobName } = {}) {
 		super();
-		if (! url) {
+		if (!url) {
 			throw new Error('Url is not provided');
 		}
 		

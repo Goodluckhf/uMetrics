@@ -23,7 +23,7 @@ class GaugeMetric extends Metric {
 	 */
 	_proxyCall(action, value, _labels) {
 		const labels = { ...this._labels, ..._labels };
-		if (! labels) {
+		if (!labels) {
 			this.promMetric[action](value);
 			return this;
 		}

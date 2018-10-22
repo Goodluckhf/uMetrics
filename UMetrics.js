@@ -8,7 +8,7 @@ import Transport      from './transport/Transport';
  */
 class UMetrics {
 	constructor(transport, { prefix, labels } = {}) {
-		if (! transport || ! (transport instanceof Transport)) {
+		if (!transport || !(transport instanceof Transport)) {
 			throw new Error('Transport must be provided and be instance of Transport');
 		}
 		
@@ -25,7 +25,7 @@ class UMetrics {
 				}
 				
 				return target.registry.getByName(prop);
-			}
+			},
 		});
 	}
 	
