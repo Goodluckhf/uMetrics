@@ -4,7 +4,14 @@
   "description": "Convenient wrapper for prom-client to expose product's metrics to prometheus",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --exit --ui bdd --reporter spec --require babel-register ./**/*.server.test.js ./*.server.test.js"
+    "test": "mocha --exit --ui bdd --reporter spec --require babel-register ./**/*.server.test.js ./*.server.test.js",
+    "test:coverage:dev": "nyc --reporter=text --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./**/*.server.test.js ./*.server.test.js",
+    "test:coverage": "nyc --reporter=lcov --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./**/*.server.test.js ./*.server.test.js",
+    "report-coverage": "cat coverage/lcov.info | coveralls",
+    "prebuild": "rimraf ./dist",
+    "build": "babel ./ -d ./dist -s --ignore *.server.test.js,node_modules",
+    "precommit": "lint-staged",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
