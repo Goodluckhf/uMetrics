@@ -4,13 +4,13 @@
   "description": "Convenient wrapper for prom-client to expose product's metrics to prometheus",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --exit --ui bdd --reporter spec --require babel-register ./**/*.server.test.js ./*.server.test.js",
-    "test:coverage:dev": "nyc --reporter=text --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./**/*.server.test.js ./*.server.test.js",
-    "test:coverage": "nyc --reporter=lcov --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./**/*.server.test.js ./*.server.test.js",
+    "test": "mocha --exit --ui bdd --reporter spec --require babel-register ./src/**/*.server.test.js ./src/*.server.test.js",
+    "test:coverage:dev": "nyc --reporter=text --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./src/**/*.server.test.js ./src/*.server.test.js",
+    "test:coverage": "nyc --reporter=lcov --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./src/**/*.server.test.js ./src/*.server.test.js",
     "report-coverage": "cat coverage/lcov.info | coveralls",
     "eslint": "npx eslint --quiet .",
     "prebuild": "rimraf ./dist",
-    "build": "babel ./ -d ./dist -s --ignore *.server.test.js,node_modules",
+    "build": "babel src -d ./dist -s --ignore *.server.test.js",
     "precommit": "lint-staged",
     "semantic-release": "semantic-release"
   },
@@ -28,6 +28,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Goodluckhf/uMetrics/issues"
+  },
+  "engines": {
+    "node": ">=6.10.0"
   },
   "homepage": "https://github.com/Goodluckhf/uMetrics#readme",
   "devDependencies": {
@@ -136,5 +139,9 @@
       ]
     }
   },
-  "pkgRoot": "dist"
+  "pkgRoot": "dist",
+  "files": [
+    "dist/**/*.*",
+    "!dist/**/*.test.*"
+  ]
 }
