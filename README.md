@@ -1,8 +1,8 @@
 # uMetrics
 ![Travis](https://img.shields.io/travis/Goodluckhf/uMetrics/master.svg?style=flat-square)
 ![Coveralls github branch](https://img.shields.io/coveralls/github/Goodluckhf/uMetrics/master.svg?style=flat-square)
-![node](https://img.shields.io/node/v/uMetrics.svg?style=flat-square)
-![npm](https://img.shields.io/npm/v/uMetrics.svg?style=flat-square)
+![node](https://img.shields.io/node/v/umetrics.svg?style=flat-square)
+![npm](https://img.shields.io/npm/v/umetrics.svg?style=flat-square)
 
 ![GitHub top language](https://img.shields.io/github/languages/top/Goodluckhf/uMetrics.svg?style=flat-square)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Goodluckhf/uMetrics.svg?style=flat-square)
@@ -15,6 +15,7 @@
 
 Convenient wrapper for prom-client to expose product's metrics to prometheus
 
+## Initialize
 You just have to initialize `Facade` class and use it as a `Singletone`:
 ```javascript
 const { UMetrics, PullTransport } = require('umetrics');
@@ -42,23 +43,35 @@ uMetrics.start();
 Then in your code you have to register new metric name:
 ```javascript
 uMetrics.register(uMetrics.Metrics.Gauge, 'someMetricName', {
-	ttl   : 60 * 1000, // each time this metric will be reset
+	ttl   : 60 * 1000,
 	labels: ['some_label'],
 });
 ```
+`labels` - you have register label names before setting their values  
+`ttl` - metric's time to live (milliseconds)
 
+`ttl` parameter is very useful. because usually if you use prometheus, you want to watch time series.
+So you expect that that data will be reset evenly
+
+## Using
 And use it to collect metrics:
 ```javascript
+// Yes, you can write the name of metric here
+// Inside it' realised with proxy, so you can use it like this
+uMetrics.someMetricName.inc(1, { some_label: 'label_value' });
+
+// You can set value
+uMetrics.someMetricName.set(10, { some_label: 'label_value' });
+```
+
+Best practise is to wrap with try/catch to secure from uncaught exceptions
+```javascript
 try {
-	// Yes, you can write the name of metric here
-	// Inside it' realised with proxy, so you can use it like this
-	uMetrics.someMetricName.inc(1, { some_label: 'label_value' });
+	uMetrics.someMetricName.inc(1);
 } catch (error) {
-	// here just logging error
+	// logging the error here
 }
 ```
-Best practise to wrap with try/catch to secure from uncaught exceptions
-
 
 You cant inject another transport. Out of the box you have `PullTransport` and `PushTransport`
 ```javascript
