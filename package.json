@@ -136,7 +136,5 @@
       ]
     }
   },
-  "files": [
-    "dist/**/*.*"
-  ]
+  "pkgRoot": "dist"
 }
