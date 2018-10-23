@@ -1,8 +1,8 @@
 # uMetrics
 ![Travis](https://img.shields.io/travis/Goodluckhf/uMetrics/master.svg?style=flat-square)
 ![Coveralls github branch](https://img.shields.io/coveralls/github/Goodluckhf/uMetrics/master.svg?style=flat-square)
-![node](https://img.shields.io/node/v/uMetrics.svg?style=flat-square)
-![npm](https://img.shields.io/npm/v/uMetrics.svg?style=flat-square)
+![node](https://img.shields.io/node/v/umetrics.svg?style=flat-square)
+![npm](https://img.shields.io/npm/v/umetrics.svg?style=flat-square)
 
 ![GitHub top language](https://img.shields.io/github/languages/top/Goodluckhf/uMetrics.svg?style=flat-square)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Goodluckhf/uMetrics.svg?style=flat-square)
