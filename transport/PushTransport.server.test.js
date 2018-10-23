@@ -14,5 +14,20 @@ describe('PushTransport', () => {
 		const pushTransport = new PushTransport({}, { url: 'test.com' });
 		expect(pushTransport).to.have.property('start');
 	});
+	
+	it('Should push metrics with an interval', (cb) => {
+		const pushTransport = new PushTransport({}, { url: 'test.com', interval: 500 });
+		let pushTimes = 0;
+		pushTransport.gateway = {
+			pushAdd() {
+				pushTimes += 1;
+			}
+		};
+		pushTransport.start();
+		setTimeout(() => {
+			expect(pushTimes).to.be.equals(2);
+			cb();
+		}, 1100).unref();
+	});
 });
 
