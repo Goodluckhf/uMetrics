@@ -1,4 +1,7 @@
 # uMetrics
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/Goodluckhf/uMetrics.svg)](https://greenkeeper.io/)
+
 ![Travis](https://img.shields.io/travis/Goodluckhf/uMetrics/master.svg?style=flat-square)
 ![Coveralls github branch](https://img.shields.io/coveralls/github/Goodluckhf/uMetrics/master.svg?style=flat-square)
 ![node](https://img.shields.io/node/v/umetrics.svg?style=flat-square)
