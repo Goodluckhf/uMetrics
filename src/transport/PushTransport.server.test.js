@@ -21,7 +21,7 @@ describe('PushTransport', () => {
 		pushTransport.gateway = {
 			pushAdd() {
 				pushTimes += 1;
-			}
+			},
 		};
 		pushTransport.start();
 		setTimeout(() => {
@@ -30,4 +30,3 @@ describe('PushTransport', () => {
 		}, 1100).unref();
 	});
 });
-

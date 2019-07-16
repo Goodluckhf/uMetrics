@@ -8,7 +8,8 @@
     "test:coverage:dev": "nyc --reporter=text --require @babel/register mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",
     "test:coverage": "nyc --reporter=lcov --require @babel/register mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",
     "report-coverage": "cat coverage/lcov.info | coveralls",
-    "eslint": "npx eslint --quiet .",
+    "lint": "eslint --ignore-path .gitignore \"**/*.js\"",
+    "lint:fix": "npm run lint -- --fix",
     "prebuild": "rimraf ./dist",
     "build": "babel src -d ./dist -s --ignore *.server.test.js",
     "precommit": "lint-staged",
@@ -75,6 +76,7 @@
         "tab"
       ],
       "no-tabs": 0,
+      "implicit-arrow-linebreak": "warn",
       "key-spacing": [
         "error",
         {
@@ -101,7 +103,24 @@
       ],
       "flowtype/space-before-type-colon": 0,
       "flowtype/space-after-type-colon": 0
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.server.test.js"
+        ],
+        "globals": {
+          "describe": false,
+          "it": false,
+          "beforeEach": false,
+          "afterEach": false
+        },
+        "rules": {
+          "no-underscore-dangle": "off",
+          "no-new": "off"
+        }
+      }
+    ]
   },
   "babel": {
     "presets": [

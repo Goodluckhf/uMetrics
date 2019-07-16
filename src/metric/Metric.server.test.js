@@ -8,9 +8,8 @@ import GaugeMetric from './GaugeMetric';
  * @param {string} metricName
  * @return {number}
  */
-const getMetricValue = (metricName) => {
-	return promClient.register.getSingleMetric(metricName).get().values[0].value;
-};
+const getMetricValue = metricName =>
+	promClient.register.getSingleMetric(metricName).get().values[0].value;
 
 describe('Metric', function () {
 	this.timeout(10000);
