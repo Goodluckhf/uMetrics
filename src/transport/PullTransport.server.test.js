@@ -1,7 +1,7 @@
 import { expect }    from 'chai';
 import PullTransport from './PullTransport';
 
-describe("PullTransport", () => {
+describe('PullTransport', () => {
 	it('Should throw error if port not provided', () => {
 		const createUMetrics = () => {
 			new PullTransport();
@@ -15,4 +15,3 @@ describe("PullTransport", () => {
 		expect(pullTransport).to.have.property('start');
 	});
 });
-

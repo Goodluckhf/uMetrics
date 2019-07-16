@@ -51,9 +51,7 @@ class MetricRegistry {
 			throw new Error('Constructor should be instance of Metric');
 		}
 		
-		const labelsHash = labels.reduce((object, label) => {
-			return { ...object, [label]: null };
-		}, {});
+		const labelsHash = labels.reduce((object, label) => ({ ...object, [label]: null }), {});
 		
 		if (!labels) {
 			labels = this.defaultLabels;

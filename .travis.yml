@@ -15,7 +15,7 @@ jobs:
       before_script:
         - npm prune
       script:
-        - npm run eslint
+        - npm run lint
         - npm run test:coverage
       after_success:
         - npm run report-coverage

@@ -4,11 +4,12 @@
   "description": "Convenient wrapper for prom-client to expose product's metrics to prometheus",
   "main": "dist/index.js",
   "scripts": {
-    "test": "mocha --exit --ui bdd --reporter spec --require babel-register ./src/**/*.server.test.js ./src/*.server.test.js",
-    "test:coverage:dev": "nyc --reporter=text --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./src/**/*.server.test.js ./src/*.server.test.js",
-    "test:coverage": "nyc --reporter=lcov --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./src/**/*.server.test.js ./src/*.server.test.js",
+    "test": "mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",
+    "test:coverage:dev": "nyc --reporter=text --require @babel/register mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",
+    "test:coverage": "nyc --reporter=lcov --require @babel/register mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",
     "report-coverage": "cat coverage/lcov.info | coveralls",
-    "eslint": "npx eslint --quiet .",
+    "lint": "eslint --ignore-path .gitignore \"**/*.js\"",
+    "lint:fix": "npm run lint -- --fix",
     "prebuild": "rimraf ./dist",
     "build": "babel src -d ./dist -s --ignore *.server.test.js",
     "precommit": "lint-staged",
@@ -34,14 +35,13 @@
   },
   "homepage": "https://github.com/Goodluckhf/uMetrics#readme",
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^6.1.4",
-    "nyc": "^14.1.1",
-    "babel-cli": "^6.26.0",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.2",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
+    "chai": "^4.2.0",
     "coveralls": "^3.0.1",
     "eslint": "^6.0.1",
     "eslint-config-airbnb-base": "^13.2.0",
@@ -49,7 +49,9 @@
     "eslint-plugin-import": "^2.12.0",
     "husky": "^3.0.0",
     "lint-staged": "^9.1.0",
+    "mocha": "^6.1.4",
     "mocha-lcov-reporter": "^1.3.0",
+    "nyc": "^14.1.1",
     "semantic-release": "^15.5.4"
   },
   "dependencies": {
@@ -74,6 +76,7 @@
         "tab"
       ],
       "no-tabs": 0,
+      "implicit-arrow-linebreak": "warn",
       "key-spacing": [
         "error",
         {
@@ -100,24 +103,40 @@
       ],
       "flowtype/space-before-type-colon": 0,
       "flowtype/space-after-type-colon": 0
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.server.test.js"
+        ],
+        "globals": {
+          "describe": false,
+          "it": false,
+          "beforeEach": false,
+          "afterEach": false
+        },
+        "rules": {
+          "no-underscore-dangle": "off",
+          "no-new": "off"
+        }
+      }
+    ]
   },
   "babel": {
     "presets": [
       [
-        "env",
+        "@babel/preset-env",
         {
           "targets": {
             "node": "current"
           },
-          "useBuiltIns": "usage",
           "loose": true
         }
       ]
     ],
     "plugins": [
       [
-        "transform-object-rest-spread",
+        "@babel/plugin-proposal-object-rest-spread",
         {
           "useBuiltIns": true
         }
@@ -134,6 +153,14 @@
         },
         {
           "type": "refactor",
+          "release": "patch"
+        },
+        {
+          "type": "chore",
+          "release": "patch"
+        },
+        {
+          "type": "style",
           "release": "patch"
         }
       ]
