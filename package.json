@@ -4,9 +4,9 @@
   "description": "Convenient wrapper for prom-client to expose product's metrics to prometheus",
   "main": "dist/index.js",
   "scripts": {
-    "test": "mocha --exit --ui bdd --reporter spec --require babel-register ./src/**/*.server.test.js ./src/*.server.test.js",
-    "test:coverage:dev": "nyc --reporter=text --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./src/**/*.server.test.js ./src/*.server.test.js",
-    "test:coverage": "nyc --reporter=lcov --require babel-register mocha --exit --ui bdd --reporter spec --require babel-register ./src/**/*.server.test.js ./src/*.server.test.js",
+    "test": "mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",
+    "test:coverage:dev": "nyc --reporter=text --require @babel/register mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",
+    "test:coverage": "nyc --reporter=lcov --require @babel/register mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",
     "report-coverage": "cat coverage/lcov.info | coveralls",
     "eslint": "npx eslint --quiet .",
     "prebuild": "rimraf ./dist",
@@ -34,11 +34,12 @@
   },
   "homepage": "https://github.com/Goodluckhf/uMetrics#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.2.3",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-eslint": "^9.0.0",
     "chai": "^4.2.0",
     "coveralls": "^3.0.4",
     "eslint": "^4.19.1",
@@ -105,19 +106,18 @@
   "babel": {
     "presets": [
       [
-        "env",
+        "@babel/preset-env",
         {
           "targets": {
             "node": "current"
           },
-          "useBuiltIns": "usage",
           "loose": true
         }
       ]
     ],
     "plugins": [
       [
-        "transform-object-rest-spread",
+        "@babel/plugin-proposal-object-rest-spread",
         {
           "useBuiltIns": true
         }
@@ -138,6 +138,10 @@
         },
         {
           "type": "chore",
+          "release": "patch"
+        },
+        {
+          "type": "style",
           "release": "patch"
         }
       ]
