@@ -21,7 +21,7 @@ describe('PushTransport', () => {
 		pushTransport.gateway = {
 			pushAdd() {
 				pushTimes += 1;
-			}
+			},
 		};
 		pushTransport.start();
 		setTimeout(() => {

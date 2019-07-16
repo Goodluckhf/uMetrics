@@ -22,9 +22,9 @@ describe('MetricRegistry', () => {
 	
 	it('Should throw error if try to call "register" with Constructor not instance of Metric', () => {
 		const metricRegistry = new MetricRegistry({ port: 9300 });
-		const testClass = class{};
+		const testClass = class {};
 		const register = () => {
-			metricRegistry.register(testClass, 'jobTestMetric')
+			metricRegistry.register(testClass, 'jobTestMetric');
 		};
 		
 		expect(register).to.throw(/instance of Metric/);
@@ -40,16 +40,16 @@ describe('MetricRegistry', () => {
 	});
 	
 	it('Should register job with default label', () => {
-		const metricRegistry = new MetricRegistry({ port: 9300, labels: { pm_id: 10 }});
+		const metricRegistry = new MetricRegistry({ port: 9300, labels: { pm_id: 10 } });
 		metricRegistry.register(GaugeMetric, 'jobTestMetric');
 		const realMetric = metricRegistry.getByName('jobTestMetric');
 		expect(realMetric._labels).to.have.property('pm_id');
 	});
 	
 	it('Should register job with extra label', () => {
-		const metricRegistry = new MetricRegistry({ port: 9300, labels: { pm_id: 10 }});
+		const metricRegistry = new MetricRegistry({ port: 9300, labels: { pm_id: 10 } });
 		metricRegistry.register(GaugeMetric, 'jobTestMetric', {
-			labels: ['testLabel']
+			labels: ['testLabel'],
 		});
 		const realMetric = metricRegistry.getByName('jobTestMetric');
 		expect(realMetric._labels).to.have.property('testLabel');
@@ -57,7 +57,7 @@ describe('MetricRegistry', () => {
 	});
 	
 	it('Should set label value from default label', () => {
-		const metricRegistry = new MetricRegistry({ port: 9300, labels: { pm_id: 10 }});
+		const metricRegistry = new MetricRegistry({ port: 9300, labels: { pm_id: 10 } });
 		
 		metricRegistry.register(GaugeMetric, 'jobTestMetric');
 		

@@ -101,7 +101,24 @@
       ],
       "flowtype/space-before-type-colon": 0,
       "flowtype/space-after-type-colon": 0
-    }
+    },
+	"overrides": [
+	  {
+		  "files": [
+			  "*.server.test.js"
+		  ],
+		  "globals": {
+			  "describe": false,
+			  "it": false,
+			  "beforeEach": false,
+			  "afterEach": false
+		  },
+		  "rules": {
+			  "no-underscore-dangle": "warn",
+			  "no-new": "off"
+		  }
+	  }
+	]
   },
   "babel": {
     "presets": [

@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import { expect } from 'chai';
 import promClient from 'prom-client';
 
 import UMetrics  from './UMetrics';
@@ -19,13 +19,13 @@ describe('UMetrics facade', () => {
 	});
 	
 	it('Can register metric', () => {
-		const uMetrics = new UMetrics(new Transport, { port: 1111 });
+		const uMetrics = new UMetrics(new Transport(), { port: 1111 });
 		const metric = uMetrics.register(uMetrics.Metrics.Gauge, 'testMetric');
 		expect(metric).to.be.instanceOf(uMetrics.Metrics.Gauge);
 	});
 	
 	it('Can use getters to get metrics by name', () => {
-		const uMetrics = new UMetrics(new Transport, { port: 1111 });
+		const uMetrics = new UMetrics(new Transport(), { port: 1111 });
 		const realMetric = uMetrics.register(uMetrics.Metrics.Gauge, 'testMetric');
 		expect(uMetrics.testMetric).to.be.equals(realMetric);
 	});

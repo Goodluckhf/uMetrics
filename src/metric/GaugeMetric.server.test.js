@@ -1,23 +1,21 @@
-import { expect }  from "chai";
+import { expect }  from 'chai';
 import promClient  from 'prom-client';
-import GaugeMetric from "./GaugeMetric";
+import GaugeMetric from './GaugeMetric';
 
 /**
  * @param {string} metricName
  * @return {number}
  */
-const getMetricValue = (metricName) => {
-	return promClient.register.getSingleMetric(metricName).get().values[0].value;
-};
+const getMetricValue = metricName =>
+	promClient.register.getSingleMetric(metricName).get().values[0].value;
 
 /**
  * @param {string} metricName
  * @param {string} labelName
  * @return {string|number}
  */
-const getLabelValue = (metricName, labelName) => {
-	return promClient.register.getSingleMetric(metricName).get().values[0].labels[labelName];
-};
+const getLabelValue = (metricName, labelName) =>
+	promClient.register.getSingleMetric(metricName).get().values[0].labels[labelName];
 
 describe('GaugeMetric', () => {
 	// Чтобы не ебалось при --watch
@@ -45,7 +43,7 @@ describe('GaugeMetric', () => {
 			labels: { testLabel: null },
 		});
 		
-		metric.set(expectedValue, { [labelName]:  'testLabel' });
+		metric.set(expectedValue, { [labelName]: 'testLabel' });
 		// Ну да жесть, позже поправим
 		const labelValue = getLabelValue(metricName, labelName);
 		expect(labelValue).to.be.equal(labelName);
