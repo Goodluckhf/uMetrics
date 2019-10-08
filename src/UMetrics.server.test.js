@@ -49,4 +49,11 @@ describe('UMetrics facade', () => {
     });
     expect(uMetrics.prefix).to.be.equals('test');
   });
+
+  it('Should have defaultMetricsInterval as 7000 ms by default', () => {
+    const uMetrics = new UMetrics(new Transport(), {
+      port: 1111,
+    });
+    expect(uMetrics.nodejsMetricsInterval).to.be.equals(7000);
+  });
 });

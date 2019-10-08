@@ -9,7 +9,12 @@ import Transport from './transport/Transport';
 class UMetrics {
   constructor(
     transport,
-    { prefix = null, labels, nodejsMetricsEnabled = false } = {},
+    {
+      prefix = null,
+      labels,
+      nodejsMetricsEnabled = false,
+      nodejsMetricsInterval = 7000,
+    } = {},
   ) {
     if (!transport || !(transport instanceof Transport)) {
       throw new Error(
@@ -18,6 +23,7 @@ class UMetrics {
     }
 
     this.nodejsMetricsEnabled = nodejsMetricsEnabled;
+    this.nodejsMetricsInterval = nodejsMetricsInterval;
     this.prefix = prefix;
     this.transport = transport;
     this.registry = new MetricRegistry({
