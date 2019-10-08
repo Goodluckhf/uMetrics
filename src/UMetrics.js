@@ -58,20 +58,26 @@ class UMetrics {
    */
   start() {
     if (this.nodejsMetricsEnabled) {
-      this.enableExportingDefaultMetrics();
+      this.enableExportingDefaultMetrics(this.prefix && `${this.prefix}_`);
     }
     this.transport.start();
     return this;
   }
 
   /**
+   * @param {String} prefix
    * @private
    */
-  enableExportingDefaultMetrics() {
-    promClient.collectDefaultMetrics({
-      prefix: this.prefix,
+  enableExportingDefaultMetrics(prefix) {
+    const options = {
       timeout: this.nodejsMetricsInterval,
-    });
+    };
+
+    if (prefix) {
+      options.prefix = prefix;
+    }
+
+    promClient.collectDefaultMetrics(options);
   }
 }
 

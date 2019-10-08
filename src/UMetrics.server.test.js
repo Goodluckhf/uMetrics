@@ -86,4 +86,35 @@ describe('UMetrics facade', () => {
     uMetrics.start();
     expect(calledCount).to.be.equals(0);
   });
+
+  it('Should add _ if prefix option provided', () => {
+    let expectedPrefix = null;
+    const uMetrics = new UMetrics(new Transport(), {
+      port: 1111,
+      nodejsMetricsEnabled: true,
+      prefix: 'test',
+    });
+
+    uMetrics.enableExportingDefaultMetrics = prefix => {
+      expectedPrefix = prefix;
+    };
+
+    uMetrics.start();
+    expect(expectedPrefix).to.be.equals('test_');
+  });
+
+  it('Should call enableExportMetrics without parameters if prefix is not provided', () => {
+    let expectedPrefix = 0;
+    const uMetrics = new UMetrics(new Transport(), {
+      port: 1111,
+      nodejsMetricsEnabled: true,
+    });
+
+    uMetrics.enableExportingDefaultMetrics = prefix => {
+      expectedPrefix = prefix;
+    };
+
+    uMetrics.start();
+    expect(expectedPrefix).to.be.null;
+  });
 });
