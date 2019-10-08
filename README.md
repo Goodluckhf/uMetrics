@@ -56,10 +56,7 @@ uMetrics.register(uMetrics.Metrics.Gauge, 'someMetricName', {
 ```
 
 `labels` - you have register label names before setting their values  
-`ttl` - metric's time to live (milliseconds)
-
-`ttl` parameter is very useful. because usually if you use prometheus, you want to watch time series.
-So you expect that that data will be reset evenly
+`ttl` - metric's time to live (milliseconds) - deprecated
 
 ## Using
 
