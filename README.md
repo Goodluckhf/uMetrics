@@ -19,45 +19,56 @@
 Convenient wrapper for prom-client to expose product's metrics to prometheus
 
 ## Initialize
+
 You just have to initialize `Facade` class and use it as a `Singletone`:
+
 ```javascript
 const { UMetrics, PullTransport } = require('umetrics');
 
 // Any logger with this interface
 const logger = {
-	info(msg) {
-		console.log(msg);
-	},
-	warn(msg) {
-		console.log(msg);
-	},
-	error(msg) {
-		console.log(msg);
-	},
+  info(msg) {
+    console.log(msg);
+  },
+  warn(msg) {
+    console.log(msg);
+  },
+  error(msg) {
+    console.log(msg);
+  },
 };
 
 // And just initialize Singletone once
 const uMetrics = new UMetrics(new PullTransport(logger, 3000), {
-	prefix: 'test',
+  prefix: 'test',
 });
 
 uMetrics.start();
-````
+```
+
+Available options:
+
+- `prefix` - prefix for all metric names (by default null)
+- `labels` - default labels for all metrics should be type: `{ [labelName: string]: any}`
+- `nodejsMetricsEnabled` - turn off/on export of [default metrics](https://github.com/siimon/prom-client#default-metrics) (by default false)
+- `nodejsMetricsInterval` - interval of scrapping default metrics (7000 ms by default)
+
 Then in your code you have to register new metric name:
+
 ```javascript
 uMetrics.register(uMetrics.Metrics.Gauge, 'someMetricName', {
-	ttl   : 60 * 1000,
-	labels: ['some_label'],
+  ttl: 60 * 1000,
+  labels: ['some_label'],
 });
 ```
-`labels` - you have register label names before setting their values  
-`ttl` - metric's time to live (milliseconds)
 
-`ttl` parameter is very useful. because usually if you use prometheus, you want to watch time series.
-So you expect that that data will be reset evenly
+`labels` - you have register label names before setting their values  
+`ttl` - metric's time to live (milliseconds) - deprecated
 
 ## Using
+
 And use it to collect metrics:
+
 ```javascript
 // Yes, you can write the name of metric here
 // Inside it' realised with proxy, so you can use it like this
@@ -68,24 +79,26 @@ uMetrics.someMetricName.set(10, { some_label: 'label_value' });
 ```
 
 Best practise is to wrap with try/catch to secure from uncaught exceptions
+
 ```javascript
 try {
-	uMetrics.someMetricName.inc(1);
+  uMetrics.someMetricName.inc(1);
 } catch (error) {
-	// logging the error here
+  // logging the error here
 }
 ```
 
 You cant inject another transport. Out of the box you have `PullTransport` and `PushTransport`
+
 ```javascript
 // You need push transport for scripts which run for not long period
 // For example cron
 new PushTransport(logger, {
-	url: 'pushgatewayurl',
-	interval: 2000, //ms
+  url: 'pushgatewayurl',
+  interval: 2000, //ms
 });
 ```
+
 See https://prometheus.io/docs/practices/pushing/
 
 Now we have only one Metric type `GaugeMetric`. Welcome for contribution!
-
