@@ -46,6 +46,13 @@ const uMetrics = new UMetrics(new PullTransport(logger, 3000), {
 uMetrics.start();
 ```
 
+Available options:
+
+- `prefix` - prefix for all metric names (by default null)
+- `labels` - default labels for all metrics should be type: `{ [labelName: string]: any}`
+- `nodejsMetricsEnabled` - turn off/on export of [default metrics](https://github.com/siimon/prom-client#default-metrics) (by default false)
+- `nodejsMetricsInterval` - interval of scrapping default metrics (7000 ms by default)
+
 Then in your code you have to register new metric name:
 
 ```javascript
