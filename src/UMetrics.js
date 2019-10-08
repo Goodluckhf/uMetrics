@@ -7,13 +7,18 @@ import Transport from './transport/Transport';
  * @property {MetricRegistry} registry
  */
 class UMetrics {
-  constructor(transport, { prefix, labels } = {}) {
+  constructor(
+    transport,
+    { prefix = null, labels, nodejsMetricsEnabled = false } = {},
+  ) {
     if (!transport || !(transport instanceof Transport)) {
       throw new Error(
         'Transport must be provided and be instance of Transport',
       );
     }
 
+    this.nodejsMetricsEnabled = nodejsMetricsEnabled;
+    this.prefix = prefix;
     this.transport = transport;
     this.registry = new MetricRegistry({
       prefix,

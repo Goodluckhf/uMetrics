@@ -31,4 +31,22 @@ describe('UMetrics facade', () => {
     const realMetric = uMetrics.register(uMetrics.Metrics.Gauge, 'testMetric');
     expect(uMetrics.testMetric).to.be.equals(realMetric);
   });
+
+  it('Should have defaultMetrics disabled by default', () => {
+    const uMetrics = new UMetrics(new Transport(), { port: 1111 });
+    expect(uMetrics.nodejsMetricsEnabled).to.be.false;
+  });
+
+  it('Should have metricsPrefix options null by default', () => {
+    const uMetrics = new UMetrics(new Transport(), { port: 1111 });
+    expect(uMetrics.prefix).to.be.null;
+  });
+
+  it('Should change metricsPrefix options', () => {
+    const uMetrics = new UMetrics(new Transport(), {
+      port: 1111,
+      prefix: 'test',
+    });
+    expect(uMetrics.prefix).to.be.equals('test');
+  });
 });
