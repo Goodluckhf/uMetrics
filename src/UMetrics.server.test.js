@@ -56,4 +56,34 @@ describe('UMetrics facade', () => {
     });
     expect(uMetrics.nodejsMetricsInterval).to.be.equals(7000);
   });
+
+  it('Should enable default metrics exports if option provided', () => {
+    let calledCount = 0;
+    const uMetrics = new UMetrics(new Transport(), {
+      port: 1111,
+      nodejsMetricsEnabled: true,
+    });
+
+    uMetrics.enableExportingDefaultMetrics = () => {
+      calledCount += 1;
+    };
+
+    uMetrics.start();
+    expect(calledCount).to.be.equals(1);
+  });
+
+  it('Should not enable default metrics exports if option is not provided', () => {
+    let calledCount = 0;
+    const uMetrics = new UMetrics(new Transport(), {
+      port: 1111,
+      nodejsMetricsEnabled: false,
+    });
+
+    uMetrics.enableExportingDefaultMetrics = () => {
+      calledCount += 1;
+    };
+
+    uMetrics.start();
+    expect(calledCount).to.be.equals(0);
+  });
 });

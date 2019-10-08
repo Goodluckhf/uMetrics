@@ -1,3 +1,4 @@
+import promClient from 'prom-client';
 import MetricRegistry from './MetricRegistry';
 import GaugeMetric from './metric/GaugeMetric';
 import Transport from './transport/Transport';
@@ -56,8 +57,21 @@ class UMetrics {
    * @return UMetrics
    */
   start() {
+    if (this.nodejsMetricsEnabled) {
+      this.enableExportingDefaultMetrics();
+    }
     this.transport.start();
     return this;
+  }
+
+  /**
+   * @private
+   */
+  enableExportingDefaultMetrics() {
+    promClient.collectDefaultMetrics({
+      prefix: this.prefix,
+      timeout: this.nodejsMetricsInterval,
+    });
   }
 }
 
