@@ -4,7 +4,7 @@
   "description": "Convenient wrapper for prom-client to expose product's metrics to prometheus",
   "main": "dist/index.js",
   "scripts": {
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier --write \"./**/*.{js,yml,json,md}\" --ignore-path .gitignore ",
     "test": "mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",
     "test:coverage:dev": "nyc --reporter=text --require @babel/register mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",
     "test:coverage": "nyc --reporter=lcov --require @babel/register mocha --exit --ui bdd --reporter spec --require @babel/register ./src/**/*.server.test.js ./src/*.server.test.js",

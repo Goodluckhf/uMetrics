@@ -6,6 +6,7 @@ module.exports = {
   parser: 'babel-eslint',
   rules: {
     'no-param-reassign': 0,
+    'no-unused-expressions': 0,
     'no-underscore-dangle': [
       'error',
       {
