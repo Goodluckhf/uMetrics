@@ -4,6 +4,7 @@ import PullTransport from './transport/PullTransport';
 import PushTransport from './transport/PushTransport';
 import Metric from './metric/Metric';
 import GaugeMetric from './metric/GaugeMetric';
+import HistogramMetric from './metric/HistogramMetric';
 
 export {
   UMetrics,
@@ -12,4 +13,5 @@ export {
   PullTransport,
   GaugeMetric,
   Metric,
+  HistogramMetric,
 };
