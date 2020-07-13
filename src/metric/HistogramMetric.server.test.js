@@ -25,75 +25,148 @@ describe('HistogramMetric', () => {
     promClient.register.clear();
   });
 
-  it('Can observe value without labels', () => {
-    const metricName = 'test';
+  describe('observe', () => {
+    it('Can observe value without labels', () => {
+      const metricName = 'test';
 
-    const metric = new HistogramMetric(metricName, [5, 100, 1000]);
+      const metric = new HistogramMetric(metricName, [5, 100, 1000]);
 
-    metric.observe(5);
-    metric.observe(50);
-    metric.observe(100);
-    metric.observe(1001);
+      metric.observe(5);
+      metric.observe(50);
+      metric.observe(100);
+      metric.observe(1001);
 
-    const metricValues = getMetricValues(metricName);
+      const metricValues = getMetricValues(metricName);
 
-    expect(metricValues[0].labels.le).to.be.equal(5);
-    expect(metricValues[0].value).to.be.equal(1);
-    expect(metricValues[0].metricName).to.be.equal(`${metricName}_bucket`);
+      expect(metricValues[0].labels.le).to.be.equal(5);
+      expect(metricValues[0].value).to.be.equal(1);
+      expect(metricValues[0].metricName).to.be.equal(`${metricName}_bucket`);
 
-    expect(metricValues[1].labels.le).to.be.equal(100);
-    expect(metricValues[1].value).to.be.equal(3);
+      expect(metricValues[1].labels.le).to.be.equal(100);
+      expect(metricValues[1].value).to.be.equal(3);
 
-    expect(metricValues[2].labels.le).to.be.equal(1000);
-    expect(metricValues[2].value).to.be.equal(3);
+      expect(metricValues[2].labels.le).to.be.equal(1000);
+      expect(metricValues[2].value).to.be.equal(3);
 
-    expect(metricValues[3].labels.le).to.be.equal('+Inf');
-    expect(metricValues[3].value).to.be.equal(4);
+      expect(metricValues[3].labels.le).to.be.equal('+Inf');
+      expect(metricValues[3].value).to.be.equal(4);
 
-    expect(metricValues[4].value).to.be.equal(1156);
-    expect(metricValues[4].metricName).to.be.equal(`${metricName}_sum`);
-  });
-
-  it('Can observe value with labels', () => {
-    const metricName = 'test';
-    const labelName = 'testLabel';
-
-    const metric = new HistogramMetric(metricName, [100], {
-      labels: { testLabel: null },
+      expect(metricValues[4].value).to.be.equal(1156);
+      expect(metricValues[4].metricName).to.be.equal(`${metricName}_sum`);
     });
 
-    metric.observe(50, { [labelName]: 'testLabel' });
-    metric.observe(150, { [labelName]: 'testLabel' });
+    it('Can observe value with labels', () => {
+      const metricName = 'test';
+      const labelName = 'testLabel';
 
-    const labelValue = getLabelValue(metricName, labelName);
-    expect(labelValue).to.be.equal(labelName);
+      const metric = new HistogramMetric(metricName, [100], {
+        labels: { testLabel: null },
+      });
 
-    const metricValues = getMetricValues(metricName);
-    expect(metricValues[0].labels.le).to.be.equal(100);
-    expect(metricValues[0].value).to.be.equal(1);
-    expect(metricValues[0].metricName).to.be.equal(`${metricName}_bucket`);
+      metric.observe(50, { [labelName]: 'testLabel' });
+      metric.observe(150, { [labelName]: 'testLabel' });
 
-    expect(metricValues[1].labels.le).to.be.equal('+Inf');
-    expect(metricValues[1].value).to.be.equal(2);
+      const labelValue = getLabelValue(metricName, labelName);
+      expect(labelValue).to.be.equal(labelName);
 
-    expect(metricValues[2].value).to.be.equal(200);
-    expect(metricValues[2].metricName).to.be.equal(`${metricName}_sum`);
+      const metricValues = getMetricValues(metricName);
+      expect(metricValues[0].labels.le).to.be.equal(100);
+      expect(metricValues[0].value).to.be.equal(1);
+      expect(metricValues[0].metricName).to.be.equal(`${metricName}_bucket`);
+
+      expect(metricValues[1].labels.le).to.be.equal('+Inf');
+      expect(metricValues[1].value).to.be.equal(2);
+
+      expect(metricValues[2].value).to.be.equal(200);
+      expect(metricValues[2].metricName).to.be.equal(`${metricName}_sum`);
+    });
+
+    it('Can observe value without buckets', () => {
+      const metricName = 'test';
+
+      const metric = new HistogramMetric(metricName);
+
+      metric.observe(50);
+      metric.observe(150);
+
+      const metricValues = getMetricValues(metricName);
+
+      expect(metricValues[0].labels.le).to.be.equal('+Inf');
+      expect(metricValues[0].value).to.be.equal(2);
+
+      expect(metricValues[1].value).to.be.equal(200);
+      expect(metricValues[1].metricName).to.be.equal(`${metricName}_sum`);
+    });
   });
 
-  it('Can observe value without buckets', () => {
-    const metricName = 'test';
+  describe('startTimer', () => {
+    it('returns function and starts timer', async () => {
+      const metricName = 'test';
 
-    const metric = new HistogramMetric(metricName);
+      const metric = new HistogramMetric(metricName, [0.005, 0.1, 1]);
 
-    metric.observe(50);
-    metric.observe(150);
+      let end = metric.startTimer();
+      await new Promise(resolve => {
+        setTimeout(() => {
+          end();
+          resolve();
+        }, 2);
+      });
+      end = metric.startTimer();
+      await new Promise(resolve => {
+        setTimeout(() => {
+          end();
+          resolve();
+        }, 200);
+      });
 
-    const metricValues = getMetricValues(metricName);
+      const metricValues = getMetricValues(metricName);
 
-    expect(metricValues[0].labels.le).to.be.equal('+Inf');
-    expect(metricValues[0].value).to.be.equal(2);
+      expect(metricValues[0].labels.le).to.be.equal(0.005);
+      expect(metricValues[0].value).to.be.equal(1);
+      expect(metricValues[0].metricName).to.be.equal(`${metricName}_bucket`);
 
-    expect(metricValues[1].value).to.be.equal(200);
-    expect(metricValues[1].metricName).to.be.equal(`${metricName}_sum`);
+      expect(metricValues[1].labels.le).to.be.equal(0.1);
+      expect(metricValues[1].value).to.be.equal(1);
+
+      expect(metricValues[2].labels.le).to.be.equal(1);
+      expect(metricValues[2].value).to.be.equal(2);
+
+      expect(metricValues[3].labels.le).to.be.equal('+Inf');
+      expect(metricValues[3].value).to.be.equal(2);
+    });
+  });
+
+  describe('reset', () => {
+    it('should reset metrics values', async () => {
+      const metricName = 'test';
+
+      const metric = new HistogramMetric(metricName, [5, 100, 1000]);
+
+      metric.observe(5);
+      metric.observe(101);
+
+      metric.reset();
+
+      metric.observe(5);
+
+      const metricValues = getMetricValues(metricName);
+
+      expect(metricValues[0].labels.le).to.be.equal(5);
+      expect(metricValues[0].value).to.be.equal(1);
+      expect(metricValues[0].metricName).to.be.equal(`${metricName}_bucket`);
+
+      expect(metricValues[1].labels.le).to.be.equal(100);
+      expect(metricValues[1].value).to.be.equal(1);
+
+      expect(metricValues[2].labels.le).to.be.equal(1000);
+      expect(metricValues[2].value).to.be.equal(1);
+
+      expect(metricValues[3].labels.le).to.be.equal('+Inf');
+      expect(metricValues[3].value).to.be.equal(1);
+
+      expect(metricValues[4].value).to.be.equal(5);
+      expect(metricValues[4].metricName).to.be.equal(`${metricName}_sum`);
+    });
   });
 });

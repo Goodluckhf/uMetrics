@@ -39,6 +39,22 @@ class HistogramMetric extends Metric {
   observe(value, labels) {
     return this._proxyCall('observe', value, labels);
   }
+
+  /**
+   * Start a timer where the value in seconds will observed
+   * @param labels Object with label keys and values
+   * @return Function to invoke when timer should be stopped
+   */
+  startTimer(labels) {
+    return this.promMetric.startTimer(labels);
+  }
+
+  /**
+   * Reset histogram values
+   */
+  reset() {
+    this.promMetric.reset();
+  }
 }
 
 export default HistogramMetric;
